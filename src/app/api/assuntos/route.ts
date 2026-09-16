@@ -7,6 +7,9 @@ export async function GET() {
     .select("*")
     .order("nome");
 
+    // console.log("DATA:", data);
+    // console.log("ERROR:", error) para o caso da aplicação parar de funcionar
+
   if (error) return NextResponse.json({ detail: error.message }, { status: 500 });
   return NextResponse.json(data);
 }
