@@ -537,3 +537,39 @@ button {
     flex-wrap: wrap;
   }
 }
+
+.faq-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: transparent;
+  white-space: nowrap;
+  margin-right: auto;
+}
+
+.faq-badge.verified {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.checkbox-field input {
+  width: auto;
+}
+
+.faq-form textarea {
+  min-height: 220px;
+}

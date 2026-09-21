@@ -130,6 +130,13 @@ export default function Page() {
     fecharForm();
   }
 
+    async function handleToggleVerificado(id: number, verificado: boolean) {
+    const atualizada = await api.marcarVerificado(id, verificado);
+    setRespostas((prev) =>
+      prev.map((r) => (r.id === atualizada.id ? atualizada : r))
+    );
+  }
+
   async function handleRemoverResposta(id: number) {
     if (!confirm("Remover esta resposta?")) return;
     await api.removerResposta(id);
@@ -213,6 +220,7 @@ export default function Page() {
               assuntoNome={assuntoSelecionado?.nome}
               onEdit={abrirEdicao}
               onDelete={handleRemoverResposta}
+              onToggleVerificado={handleToggleVerificado}
             />
           )}
         </main>

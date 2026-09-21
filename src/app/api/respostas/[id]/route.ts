@@ -26,10 +26,36 @@ export async function PUT(
       pergunta: (body.pergunta as string).trim(),
       resposta: (body.resposta as string).trim(),
       assunto_id: assuntoId,
+      verificado: typeof body.verificado === "boolean" ? body.verificado : false,
       ...(brParaIso(body.data as string | undefined)
         ? { data: brParaIso(body.data as string) }
         : {}),
     })
+    .eq("id", params.id)
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ detail: error.message }, { status: 500 });
+  if (!data) return NextResponse.json({ detail: "Resposta não encontrada" }, { status: 404 });
+
+  return NextResponse.json(formatarResposta(data));
+}
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const body = await req.json().catch(() => null);
+  if (typeof body?.verificado !== "boolean") {
+    return NextResponse.json(
+      { detail: "Campo 'verificado' (boolean) é obrigatório" },
+      { status: 400 }
+    );
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from("respostas")
+    .update({ verificado: body.verificado })
     .eq("id", params.id)
     .select()
     .single();

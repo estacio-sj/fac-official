@@ -16,6 +16,7 @@ interface FormState {
   resposta: string;
   assunto_id: string;
   data: string;
+  verificado: boolean;
 }
 
 export function FaqForm({ assuntos, initial, onSave, onCancel }: Props) {
@@ -26,12 +27,15 @@ export function FaqForm({ assuntos, initial, onSave, onCancel }: Props) {
           resposta: initial.resposta,
           assunto_id: String(initial.assunto_id),
           data: brParaIso(initial.data),
+          verificado: initial.verificado
+          
         }
       : {
           pergunta: "",
           resposta: "",
           assunto_id: assuntos[0] ? String(assuntos[0].id) : "",
           data: hojeIso(),
+          verificado: false
         }
   );
   const [erro, setErro] = useState<string | null>(null);
@@ -55,6 +59,7 @@ export function FaqForm({ assuntos, initial, onSave, onCancel }: Props) {
         resposta: form.resposta.trim(),
         assunto_id: Number(form.assunto_id),
         data: isoParaBr(form.data),
+        verificado: form.verificado
       });
     } catch (err) {
       setErro(err instanceof Error ? err.message : "Não foi possível salvar.");
@@ -81,7 +86,7 @@ export function FaqForm({ assuntos, initial, onSave, onCancel }: Props) {
         <label htmlFor="resposta">Resposta</label>
         <textarea
           id="resposta"
-          rows={4}
+          rows={10}
           value={form.resposta}
           onChange={(e) => update("resposta", e.target.value)}
           placeholder="Escreva a resposta que os mediadores vão usar"
@@ -113,6 +118,19 @@ export function FaqForm({ assuntos, initial, onSave, onCancel }: Props) {
           />
         </div>
       </div>
+
+      <label className="checkbox-field">
+        <input
+          type="checkbox"
+          checked={form.verificado}
+          onChange={(e) =>
+            setForm((f) => ({ ...f, verificado: e.target.checked }))
+          }
+        />
+        Verificado — pode ser enviada ao aluno
+      </label>
+
+
 
       <div className="actions">
         <button type="button" className="btn-secondary" onClick={onCancel}>

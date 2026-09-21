@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
       resposta: (body.resposta as string).trim(),
       assunto_id: assuntoId,
       data: brParaIso(body.data as string | undefined) ?? new Date().toISOString().slice(0, 10),
+      verificado: typeof body.verificado === "boolean" ? body.verificado : false,
     })
     .select()
     .single();
@@ -47,3 +48,4 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ detail: error.message }, { status: 500 });
   return NextResponse.json(formatarResposta(data), { status: 201 });
 }
+

@@ -49,4 +49,10 @@ export const api = {
     }),
   removerResposta: (id: number) =>
     request<null>(`/api/respostas/${id}`, { method: "DELETE" }),
+
+    marcarVerificado: (id: number, verificado: boolean) =>
+    request<Resposta>(`/api/respostas/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ verificado }),
+    }),
 };
